@@ -104,14 +104,6 @@ export function DashboardIndex() {
               </li>
               <li class="flex items-center gap-2">
                 <div class="h-1 w-1 rounded-full bg-muted-foreground"></div>
-                Durable Objects providing isolated databases per user
-              </li>
-              <li class="flex items-center gap-2">
-                <div class="h-1 w-1 rounded-full bg-muted-foreground"></div>
-                Real-time updates via WebSockets
-              </li>
-              <li class="flex items-center gap-2">
-                <div class="h-1 w-1 rounded-full bg-muted-foreground"></div>
                 SolidJS and Tanstack Router for reactive UI
               </li>
             </ul>
