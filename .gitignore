@@ -19,8 +19,6 @@ dist-ssr
 
 .dev.vars
 
-convex/_generated/
-
 # windsurf rules
 .windsurfrules
 
