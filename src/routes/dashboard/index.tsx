@@ -70,7 +70,7 @@ export function DashboardIndex() {
         <div class="mb-10">
           <h1 class="text-2xl font-semibold mb-2">Welcome, {user()?.name || 'User'}</h1>
           <p class="text-muted-foreground text-sm">
-            Each user gets their own isolated database via Durable Objects
+            This is a demo of a dashboard with a few different sections.
           </p>
         </div>
         <div class="mb-10">
