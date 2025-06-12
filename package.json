@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite --port 3000",
     "start": "vite --port 3000",
-    "build": "bun install && vite build",
+    "build": "vite build",
     "serve": "vite preview",
     "test": "vitest run",
     "db:generate": "drizzle-kit generate",
@@ -13,7 +13,7 @@
     "notes:db:generate": "drizzle-kit generate --config api/drizzle.config.ts",
     "api:dev": "wrangler dev api/index.ts",
     "auth:migrate": "bunx @better-auth/cli generate",
-    "deploy": "bun run build && wrangler deploy"
+    "deploy": "wrangler deploy"
   },
   "dependencies": {
     "@kobalte/core": "^0.13.9",

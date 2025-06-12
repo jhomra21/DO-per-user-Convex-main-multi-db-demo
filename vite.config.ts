@@ -5,11 +5,6 @@ import tailwindcss from '@tailwindcss/vite'
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
 import { resolve } from 'node:path'
 import { cloudflare } from '@cloudflare/vite-plugin'
-import path from 'path'
-import { fileURLToPath } from 'url'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -17,9 +12,7 @@ export default defineConfig({
     TanStackRouterVite({ target: 'solid', autoCodeSplitting: true }),
     solidPlugin(),
     tailwindcss(),
-    cloudflare({
-      configPath: path.resolve(__dirname, 'wrangler.jsonc'),
-    }),
+    cloudflare(),
   ],
   resolve: {
     alias: {
