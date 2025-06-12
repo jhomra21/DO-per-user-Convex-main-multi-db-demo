@@ -1,3 +1,11 @@
+# SolidJS + Tanstack Router + Better Auth + Cloudflare + Vite
+
+This template should help get you started developing with SolidJS and TypeScript in Vite.
+
+The template uses [Vite](https://vitejs.dev/), [Solid-js](https://www.solidjs.com/), [Tanstack Solid Router](https://tanstack.com/router/v1/docs/adapters/solid-router), [Better-auth](https://better-auth.dev/), and [Cloudflare](https://www.cloudflare.com/).
+
+## Getting Started
+
 # SolidJS & Cloudflare Full-Stack Template
 
 A comprehensive template for building modern web applications using SolidJS on the frontend and a Cloudflare-powered backend. This template integrates Better Auth for authentication, Cloudflare D1 for database storage, Cloudflare Workers for serverless APIs, Cloudflare Pages for hosting, and Cloudflare KV for session management.

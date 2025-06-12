@@ -9,6 +9,7 @@ dist-ssr
 .cursor
 
 .env*
+!.env.production
 *.db
 *.sqlite
 
