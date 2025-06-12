@@ -4,8 +4,6 @@ dist
 dist-ssr
 *.local
 
-wrangler*
-
 .vscode
 
 .cursor
