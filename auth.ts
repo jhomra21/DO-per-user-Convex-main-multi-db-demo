@@ -16,13 +16,13 @@ const hashPassword = async (password: string): Promise<string> => {
     const salt = crypto.getRandomValues(new Uint8Array(16));
 
     // Hash the password with the salt.
-    // These parameters are a good starting point for a serverless environment
-    // to balance security and performance, avoiding CPU timeouts.
+    // The memory cost has been lowered to 32MB to better suit the
+    // Cloudflare Workers runtime environment and avoid CPU timeouts.
     const result = await argon2.hash({
         pass: password,
         salt: salt,
         time: 1,
-        mem: 1024 * 64, // 64 MB
+        mem: 1024 * 32, // 32 MB
         hashLen: 32,
         parallelism: 1,
         type: argon2.ArgonType.Argon2id,
@@ -49,7 +49,7 @@ const verifyPassword = async (hashString: string, password: string): Promise<boo
             pass: password,
             salt: salt,
             time: 1,
-            mem: 1024 * 64, // 64 MB
+            mem: 1024 * 32, // 32 MB
             hashLen: 32,
             parallelism: 1,
             type: argon2.ArgonType.Argon2id,
