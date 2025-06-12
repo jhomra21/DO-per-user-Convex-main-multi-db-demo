@@ -9,7 +9,6 @@
     "VITE_CONVEX_URL": "https://hip-shark-723.convex.cloud",
     "NODE_ENV": "production",
     "BETTER_AUTH_URL": "https://solid-tsrouter-cf-vite-better-auth.jhonra121.workers.dev",
-    "dub": "dub"
   },
   "observability": {
     "enabled": true
