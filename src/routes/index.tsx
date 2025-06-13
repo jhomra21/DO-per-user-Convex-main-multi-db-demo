@@ -41,14 +41,6 @@ const HomePage: Component = () => {
               <span class="ml-2 opacity-70">◯</span>
             </Button>
           </Show>
-          <Button
-            onClick={() => router.navigate({ to: "/auth" })}
-            variant="outline"
-            class="justify-between w-full md:w-auto px-6 py-3"
-          >
-            <span>Test Auth</span>
-            <span class="ml-2 opacity-70">🔑</span>
-          </Button>
         </div>
       
         <Card>

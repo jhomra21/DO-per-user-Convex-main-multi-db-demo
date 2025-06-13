@@ -16,6 +16,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/solid-query'
 import { routeTree } from './routeTree.gen' 
 
 import './styles.css'
+import NotFound from './components/NotFound';
 
 // Initialize auth (check for token in URL, etc.)
 
@@ -37,6 +38,7 @@ window.__QUERY_CLIENT = queryClient;
 const router = createRouter({
   routeTree,
   defaultPreload: 'viewport',
+  defaultNotFoundComponent: NotFound,
   scrollRestoration: true,
   scrollRestorationBehavior: 'smooth',
   // The context needs to be provided to the router instance.

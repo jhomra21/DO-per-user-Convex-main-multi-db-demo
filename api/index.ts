@@ -48,8 +48,8 @@ app.get('/api/hello', (c) => {
   return c.text('Hello from Hono API!');
 });
 
-app.on(["POST", "GET"], "/api/auth/*", (c) => {
-	return getAuth(c.env as any).handler(c.req.raw);
+app.all('/api/auth/*', (c) => {
+  return getAuth(c.env).handler(c.req.raw);
 });
 
 export default app;

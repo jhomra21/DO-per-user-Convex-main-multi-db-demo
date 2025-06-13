@@ -69,3 +69,27 @@ To apply schema changes to the remote Cloudflare D1 database, we use migrations.
 3.  **Apply the Migration**:
     -   Run the following command in your terminal. Wrangler is smart enough to only apply new, unapplied migrations.
     -   `wrangler d1 migrations apply <YOUR_DB_NAME> --remote`
+
+## Development Notes
+
+### OAuth Callback Handling in Development
+
+When using a Single-Page Application (SPA) framework like SolidJS with Cloudflare Pages and the Vite plugin, a specific challenge arises with OAuth callbacks (e.g., from Google Sign-In) in the local development environment.
+
+**The Problem:**
+
+Cloudflare's SPA configuration (`"not_found_handling": "single-page-application"`) is designed to serve your `index.html` for any "navigation" request that doesn't match a static file. An OAuth redirect from a provider like Google is a navigation request.
+
+In development, this means the Vite server, mimicking production behavior, intercepts the callback to `/api/auth/callback/google` and serves the main SolidJS application instead of passing the request to your backend Hono worker. This prevents the authentication code from being processed, so no session is created.
+
+**The Solution:**
+
+The solution is to embrace this SPA behavior by creating a dedicated client-side route to handle the callback.
+
+1.  **Create a specific route** in your client-side router (e.g., TanStack Router) that matches the callback path, such as `/api/auth/callback/google`.
+2.  **The component for this route** has a single responsibility: to immediately make a `fetch` request to the *exact same URL* it's currently on (`window.location.href`).
+3.  **This `fetch` request is the key.** Unlike the initial redirect, a `fetch` is an API request, not a navigation request. The Vite server and the Cloudflare plugin correctly route this `fetch` request to your backend Hono worker.
+4.  The backend worker then processes the OAuth code, creates a session, and responds to the `fetch` call.
+5.  Upon receiving a successful response, the component uses the client-side router's `navigate` function to redirect the user to their intended destination (e.g., `/dashboard`).
+
+This approach creates a seamless "shim" within your client application that correctly bridges the OAuth redirect and your backend API, working in harmony with the SPA development server.
