@@ -37,5 +37,19 @@ function GoogleCallbackComponent() {
     })();
   });
 
-  return <div>Please wait while we complete your sign-in...</div>;
+  return (
+    <main class="flex min-h-screen flex-col items-center justify-center bg-background p-4 font-sans">
+      <div class="flex flex-col items-center justify-center space-y-4">
+        <div class="h-10 w-10 animate-spin rounded-full border-4 border-solid border-blue-400 border-t-transparent" />
+        <div class="text-center">
+          <h1 class="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-2xl font-bold tracking-tight text-transparent">
+            Completing sign-in
+          </h1>
+          <p class="mt-2 text-base text-muted-foreground">
+            You will be redirected shortly.
+          </p>
+        </div>
+      </div>
+    </main>
+  );
 } 
