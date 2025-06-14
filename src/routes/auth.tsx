@@ -21,6 +21,8 @@ const Spinner = (props: { class?: string }) => (
     />
 );
 
+type AuthAction = 'signIn' | 'signUp' | 'google' | null;
+
 function AuthPage() {
   const queryClient = useQueryClient();
   const sessionQuery = useQuery(() => sessionQueryOptions()) as QueryObserverResult<SessionQueryResult, Error>;
@@ -28,13 +30,11 @@ function AuthPage() {
   const signOut = useSignOut();
   const [email, setEmail] = createSignal('');
   const [password, setPassword] = createSignal('');
-  const [isSigningIn, setIsSigningIn] = createSignal(false);
-  const [isSigningUp, setIsSigningUp] = createSignal(false);
-  const [isGoogleLoading, setIsGoogleLoading] = createSignal(false);
+  const [loadingAction, setLoadingAction] = createSignal<AuthAction>(null);
 
   const handleSignIn = async () => {
     if (!email() || !password()) return;
-    setIsSigningIn(true);
+    setLoadingAction('signIn');
     const { data, error } = await authClient.signIn.email({
       email: email(),
       password: password(),
@@ -45,13 +45,13 @@ function AuthPage() {
     }
     if (error) {
       alert(error.message);
-      setIsSigningIn(false);
+      setLoadingAction(null);
     }
   };
 
   const handleSignUp = async () => {
     if (!email() || !password()) return;
-    setIsSigningUp(true);
+    setLoadingAction('signUp');
     const { data, error } = await authClient.signUp.email({
         email: email(),
         password: password(),
@@ -63,12 +63,12 @@ function AuthPage() {
     }
     if (error) {
       alert(error.message);
-      setIsSigningUp(false);
+      setLoadingAction(null);
     }
   };
 
   const handleGoogleSignIn = () => {
-    setIsGoogleLoading(true);
+    setLoadingAction('google');
     authClient.signIn.social({
       provider: 'google',
     });
@@ -100,7 +100,7 @@ function AuthPage() {
                   placeholder="your@email.com"
                   value={email()}
                   onChange={setEmail}
-                  disabled={isSigningIn() || isSigningUp()}
+                  disabled={loadingAction() !== null}
                 />
               </div>
               <div class="space-y-2">
@@ -111,18 +111,18 @@ function AuthPage() {
                   placeholder="••••••••"
                   value={password()}
                   onChange={setPassword}
-                  disabled={isSigningIn() || isSigningUp()}
+                  disabled={loadingAction() !== null}
                 />
               </div>
               <div class="flex space-x-2 pt-2">
-                <Button onClick={handleSignIn} class="w-full" disabled={isSigningIn() || isSigningUp()}>
-                  <Show when={isSigningIn()}>
+                <Button onClick={handleSignIn} class="w-full" disabled={loadingAction() !== null}>
+                  <Show when={loadingAction() === 'signIn'}>
                     <Spinner class="mr-2" />
                   </Show>
                   Sign In
                 </Button>
-                <Button onClick={handleSignUp} variant="outline" class="w-full" disabled={isSigningIn() || isSigningUp()}>
-                  <Show when={isSigningUp()}>
+                <Button onClick={handleSignUp} variant="outline" class="w-full" disabled={loadingAction() !== null}>
+                  <Show when={loadingAction() === 'signUp'}>
                     <Spinner class="mr-2" />
                   </Show>
                   Sign Up
@@ -138,11 +138,11 @@ function AuthPage() {
                   </span>
                 </div>
               </div>
-              <Button variant="outline" class="w-full" onClick={handleGoogleSignIn} disabled={isGoogleLoading()}>
-                <Show when={isGoogleLoading()}>
+              <Button variant="outline" class="w-full" onClick={handleGoogleSignIn} disabled={loadingAction() !== null}>
+                <Show when={loadingAction() === 'google'}>
                     <Spinner class="mr-2" />
                 </Show>
-                <Show when={!isGoogleLoading()}>
+                <Show when={loadingAction() !== 'google'}>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="mr-2 h-4 w-4">
                       <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12s5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
                       <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
