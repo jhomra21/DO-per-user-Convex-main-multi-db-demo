@@ -33,6 +33,7 @@
     "kysely": "^0.28.2",
     "kysely-d1": "^0.4.0",
     "solid-js": "^1.9.7",
+    "solid-sonner": "^0.2.8",
     "solid-transition-group": "^0.3.0",
     "tailwind-merge": "^3.3.0",
     "tailwindcss": "^4.1.7",

@@ -7,6 +7,7 @@ import { Suspense } from 'solid-js'
 import { Transition } from 'solid-transition-group'
 import { QueryClient } from '@tanstack/solid-query'
 import { TanStackRouterDevtools } from '@tanstack/solid-router-devtools'
+import { Toaster } from '~/components/ui/sonner'
 
 // Define router context type (can be shared or defined in a central types file too)
 export interface RouterContext {
@@ -77,6 +78,7 @@ function RootComponent() {
           <Outlet />
 
         </Suspense></Transition>
+      <Toaster />
       <TanStackRouterDevtools position="bottom-right" />
     </div>
   )

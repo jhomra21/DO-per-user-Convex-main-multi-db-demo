@@ -11,6 +11,7 @@ import { Link, useNavigate, useRouteContext } from "@tanstack/solid-router"
 import { useQuery } from "@tanstack/solid-query"
 import { sessionQueryOptions } from "~/lib/auth-guard"
 import { useSignOut } from "~/lib/auth-actions"
+import { Button } from "./ui/button"
 
 export const NavUser: Component = () => {
   const { isMobile, state, setOpenMobile } = useSidebar()
@@ -139,13 +140,9 @@ export const NavUser: Component = () => {
                     <Icon name="house" class="mr-2 size-4" />
                     Go to Home Page
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate({ to: "/dashboard/account" })}>
                     <Icon name="user" class="mr-2 size-4" />
                     Profile
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Icon name="gear" class="mr-2 size-4" />
-                    Settings
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
