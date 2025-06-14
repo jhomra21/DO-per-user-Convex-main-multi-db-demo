@@ -30,6 +30,17 @@ This project uses a Cloudflare-centric database strategy:
 - **Cloudflare D1** (SQLite): Centralized storage for authentication data (users, accounts, etc.) and application data.
 - **Cloudflare KV**: Utilized for session storage, enabling fast edge validation of user sessions.
 
+### Client-Side Authentication & State Management
+
+User authentication state on the client is managed by TanStack Query, providing a robust, cacheable, and reactive "source of truth" for the user's session.
+
+-   **Session Caching**: A global query with the key `['session']` is responsible for fetching and caching the user's session data. This is defined in `src/lib/auth-guard.ts` within `sessionQueryOptions`.
+-   **API Client**: The `better-auth/client` library, initialized in `src/lib/auth-client.ts`, handles the low-level communication with the backend authentication API (e.g., fetching the session, signing out).
+-   **Route Protection**: TanStack Router's `loader` functions are used to protect routes. The `protectedLoader` in `src/lib/auth-guard.ts` ensures that a valid session exists before rendering a protected route, redirecting to `/auth` if not.
+-   **Sign-Out**: The `useSignOut` hook in `src/lib/auth-actions.ts` orchestrates the sign-out process by calling the auth client, manually clearing the `['session']` from the query cache for immediate UI updates, and redirecting the user.
+
+This setup decouples the UI components from the authentication logic, allowing components to simply use the data from the `['session']` query to render user-specific content.
+
 ## 🛠 Tech Stack
 
 ### **Backend**
