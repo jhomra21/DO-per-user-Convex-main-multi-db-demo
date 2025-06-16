@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate, useRouteContext } from '@tanstack/solid-router';
+import { createFileRoute, Link, useRouteContext } from '@tanstack/solid-router';
 import { For, createMemo, children } from 'solid-js';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '~/components/ui/card';
 import { Button } from '~/components/ui/button';
@@ -18,6 +18,13 @@ export function DashboardIndex() {
       icon: '🗄️',
       path: '/dashboard/account',
       color: 'border-green-200 dark:border-green-800'
+    },
+    {
+      title: 'Image Gallery',
+      description: 'View and manage your images',
+      icon: '🖼️',
+      path: '/dashboard/images',
+      color: 'border-blue-200 dark:border-blue-800'
     },
     {
       title: 'Tasks',

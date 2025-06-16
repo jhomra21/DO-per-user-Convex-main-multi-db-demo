@@ -19,7 +19,7 @@ import { NavUser } from './nav-user';
 const routeMetadata: Partial<Record<keyof FileRoutesByFullPath, { name: string; iconName: IconName; isSidebarItem?: boolean }>> = {
   '/dashboard': { name: 'Home', iconName: 'house', isSidebarItem: true },
   '/dashboard/tasks': { name: 'Tasks', iconName: 'database', isSidebarItem: true },
-  '/dashboard/flux-kontext': { name: 'Flux Kontext', iconName: 'image', isSidebarItem: true },
+  '/dashboard/images': { name: 'Images', iconName: 'image', isSidebarItem: true },
   '/dashboard/account': { name: 'Account', iconName: 'user', isSidebarItem: true },
   // Add more route metadata here as your application grows
   // Only items with isSidebarItem: true will be shown

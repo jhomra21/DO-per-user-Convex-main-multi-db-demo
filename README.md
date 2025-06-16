@@ -60,6 +60,32 @@ This setup decouples the UI components from the authentication logic, allowing c
 - **Cloudflare Pages**: Frontend hosting and deployment.
 - **Cloudflare D1**: SQL database for persistent data storage.
 - **Cloudflare KV**: Edge key-value storage.
+- **Convex**: Backend application platform for the source of truth database.
+- **Durable Objects**: Per-user edge cache for low-latency reads.
+
+## Dual Database Architecture: Convex & Durable Objects
+
+This project uses a powerful dual-database strategy to provide both strong data consistency and low-latency reads at the edge.
+
+*   **Convex: The Source of Truth**
+    *   All data writes (like saving a new image) are handled by Convex mutations. This gives us a single, permanent, and transactionally-consistent store for all our data. It's the ultimate source of truth for the entire application.
+
+*   **Durable Objects: The Edge Cache**
+    *   A Durable Object (DO) is a special type of Cloudflare Worker that guarantees it only runs in one location at a time for a given ID. We create a unique DO instance for *each user* (`idFromName(userId)`).
+    *   Each user's DO maintains its own private, internal key-value store.
+    *   This DO acts as a specialized, high-performance cache or "read replica" that holds only that specific user's image data.
+
+*   **The Data Flow & The "Why"**
+
+    This separation gives us the best of both worlds: the robust transactional power of a central database and the low-latency performance of an edge cache.
+
+    1.  **Write**: When a user adds an image, the client calls a Convex mutation. The data is securely saved to our central database.
+    2.  **Sync**: After the write succeeds, the client sends a `sync` request to that user's specific Durable Object.
+    3.  **DO Pulls Data**: The DO receives the sync signal, turns around, and queries Convex for all of *that user's* latest images.
+    4.  **DO Caches**: The DO takes the data from Convex and writes it into its own super-fast internal storage.
+    5.  **Read**: When the client loads the image gallery, it fetches data from the `/api/images` endpoint. This request is routed directly to the user's personal DO, which reads from its internal storage and returns the data with extremely low latency, because the data is stored physically close to the user on Cloudflare's edge network.
+
+This pattern is incredibly scalable. Write operations are centralized in Convex, while the read load is distributed across potentially millions of individual Durable Objects, ensuring the application stays fast and responsive for everyone.
 
 ## 📁 Project Structure
 

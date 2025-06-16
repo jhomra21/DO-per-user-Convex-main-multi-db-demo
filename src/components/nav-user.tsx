@@ -7,11 +7,10 @@ import { SidebarMenuButton } from "./ui/sidebar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu"
 import type { Component } from "solid-js"
 import { Show, createMemo } from "solid-js"
-import { Link, useNavigate, useRouteContext } from "@tanstack/solid-router"
+import { Link, useNavigate } from "@tanstack/solid-router"
 import { useQuery } from "@tanstack/solid-query"
 import { sessionQueryOptions } from "~/lib/auth-guard"
 import { useSignOut } from "~/lib/auth-actions"
-import { Button } from "./ui/button"
 
 export const NavUser: Component = () => {
   const { isMobile, state, setOpenMobile } = useSidebar()

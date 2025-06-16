@@ -28,5 +28,21 @@
     "binding": "SESSIONS",
     "id": "8b750fa1c569422386611ef88f0c082c"
   }
+],
+"durable_objects": {
+  "bindings": [
+    {
+      "name": "IMAGE_STORAGE_DO",
+      "class_name": "ImageStorageDO"
+    }
+  ]
+},
+"migrations": [
+  {
+    "tag": "v1",
+    "new_sqlite_classes": [
+      "ImageStorageDO"
+    ]
+  }
 ]
 }

@@ -18,6 +18,7 @@ import { Route as AuthImport } from './routes/auth'
 import { Route as IndexImport } from './routes/index'
 import { Route as DashboardIndexImport } from './routes/dashboard/index'
 import { Route as DashboardTasksImport } from './routes/dashboard/tasks'
+import { Route as DashboardImagesImport } from './routes/dashboard/images'
 import { Route as DashboardAccountImport } from './routes/dashboard/account'
 
 // Create Virtual Routes
@@ -55,6 +56,12 @@ const DashboardIndexRoute = DashboardIndexImport.update({
 const DashboardTasksRoute = DashboardTasksImport.update({
   id: '/tasks',
   path: '/tasks',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardImagesRoute = DashboardImagesImport.update({
+  id: '/images',
+  path: '/images',
   getParentRoute: () => DashboardRoute,
 } as any)
 
@@ -104,6 +111,13 @@ declare module '@tanstack/solid-router' {
       preLoaderRoute: typeof DashboardAccountImport
       parentRoute: typeof DashboardImport
     }
+    '/dashboard/images': {
+      id: '/dashboard/images'
+      path: '/images'
+      fullPath: '/dashboard/images'
+      preLoaderRoute: typeof DashboardImagesImport
+      parentRoute: typeof DashboardImport
+    }
     '/dashboard/tasks': {
       id: '/dashboard/tasks'
       path: '/tasks'
@@ -132,12 +146,14 @@ declare module '@tanstack/solid-router' {
 
 interface DashboardRouteChildren {
   DashboardAccountRoute: typeof DashboardAccountRoute
+  DashboardImagesRoute: typeof DashboardImagesRoute
   DashboardTasksRoute: typeof DashboardTasksRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardAccountRoute: DashboardAccountRoute,
+  DashboardImagesRoute: DashboardImagesRoute,
   DashboardTasksRoute: DashboardTasksRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }
@@ -151,6 +167,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/dashboard/account': typeof DashboardAccountRoute
+  '/dashboard/images': typeof DashboardImagesRoute
   '/dashboard/tasks': typeof DashboardTasksRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/api/auth/callback/google': typeof ApiAuthCallbackGoogleLazyRoute
@@ -160,6 +177,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/dashboard/account': typeof DashboardAccountRoute
+  '/dashboard/images': typeof DashboardImagesRoute
   '/dashboard/tasks': typeof DashboardTasksRoute
   '/dashboard': typeof DashboardIndexRoute
   '/api/auth/callback/google': typeof ApiAuthCallbackGoogleLazyRoute
@@ -171,6 +189,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/dashboard/account': typeof DashboardAccountRoute
+  '/dashboard/images': typeof DashboardImagesRoute
   '/dashboard/tasks': typeof DashboardTasksRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/api/auth/callback/google': typeof ApiAuthCallbackGoogleLazyRoute
@@ -183,6 +202,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/dashboard'
     | '/dashboard/account'
+    | '/dashboard/images'
     | '/dashboard/tasks'
     | '/dashboard/'
     | '/api/auth/callback/google'
@@ -191,6 +211,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/dashboard/account'
+    | '/dashboard/images'
     | '/dashboard/tasks'
     | '/dashboard'
     | '/api/auth/callback/google'
@@ -200,6 +221,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/dashboard'
     | '/dashboard/account'
+    | '/dashboard/images'
     | '/dashboard/tasks'
     | '/dashboard/'
     | '/api/auth/callback/google'
@@ -246,12 +268,17 @@ export const routeTree = rootRoute
       "filePath": "dashboard.tsx",
       "children": [
         "/dashboard/account",
+        "/dashboard/images",
         "/dashboard/tasks",
         "/dashboard/"
       ]
     },
     "/dashboard/account": {
       "filePath": "dashboard/account.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/images": {
+      "filePath": "dashboard/images.tsx",
       "parent": "/dashboard"
     },
     "/dashboard/tasks": {

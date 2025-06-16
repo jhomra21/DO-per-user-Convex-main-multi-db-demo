@@ -1,9 +1,12 @@
 {
-    "extends": "./tsconfig.node.json",
     "compilerOptions": {
-      "composite": true,
-      "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.worker.tsbuildinfo",
-      "types": ["@cloudflare/workers-types/2023-07-01", "vite/client"],
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "lib": ["esnext"],
+    "types": ["@cloudflare/workers-types"],
+    "allowSyntheticDefaultImports": true,
+    "composite": true
     },
-    "include": ["index.ts", "../auth.ts"]
+  "include": ["./index.ts", "./do/ImageStorageDO.ts", "../auth.ts"]
   }
