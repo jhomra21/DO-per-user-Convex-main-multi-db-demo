@@ -8,7 +8,7 @@ The template uses [Vite](https://vitejs.dev/), [Solid-js](https://www.solidjs.co
 
 # SolidJS & Cloudflare Full-Stack Template
 
-A comprehensive template for building modern web applications using SolidJS on the frontend and a Cloudflare-powered backend. This template integrates Better Auth for authentication, Cloudflare D1 for database storage, Cloudflare Workers for serverless APIs, Cloudflare Pages for hosting, and Cloudflare KV for session management.
+A comprehensive template for building modern web applications using SolidJS on the frontend and a Cloudflare-powered backend. This template integrates Better Auth for authentication, Cloudflare D1 for database storage, Cloudflare Workers for serverless APIs, and client hosting, and Cloudflare KV for session management.
 
 ## 🌟 Core Features
 
@@ -20,7 +20,7 @@ A comprehensive template for building modern web applications using SolidJS on t
 ### 🏗️ **Modern Architecture**
 - **SolidJS Frontend**: Reactive UI with TanStack Router for file-based routing and TanStack Query for server state management.
 - **Hono.js API**: Lightweight, fast API layer running on Cloudflare Workers.
-- **Cloudflare Stack**: Leverages Cloudflare D1, KV, Workers, and Pages for a scalable and performant infrastructure.
+- **Cloudflare Stack**: Leverages Cloudflare D1, KV, Workers for a scalable and performant infrastructure.
 
 ## 🚀 Technical Implementation
 
@@ -56,8 +56,7 @@ This setup decouples the UI components from the authentication logic, allowing c
 - **TailwindCSS + solid-ui (shadcn for solidjs)**: Modern, accessible component library.
 
 ### **Infrastructure**
-- **Cloudflare Workers**: Serverless API deployment.
-- **Cloudflare Pages**: Frontend hosting and deployment.
+- **Cloudflare Workers**: Frontend Client and Serverless API deployment.
 - **Cloudflare D1**: SQL database for persistent data storage.
 - **Cloudflare KV**: Edge key-value storage.
 - **Convex**: Backend application platform for the source of truth database.
@@ -99,12 +98,12 @@ To set up your local D1 database for the first time, you need to apply the initi
 
 Run the following command in your terminal:
 ```bash
-wrangler d1 migrations apply better-auth-1-worker --local
+wrangler d1 migrations apply <D1 database_name> --local
 ```
 This ensures your local database schema is in sync with the application's requirements. 
 For remote databases, you would use the `--remote` flag instead, like this:
 ```bash
-wrangler d1 migrations apply better-auth-1-worker --remote
+wrangler d1 migrations apply <D1 database_name> --remote
 ```
 
 ### Workflow for DB Changes
@@ -121,11 +120,23 @@ wrangler d1 migrations apply better-auth-1-worker --remote
     -   Run the following command in your terminal. Wrangler is smart enough to only apply new, unapplied migrations.
     -   `wrangler d1 migrations apply <YOUR_DB_NAME> --remote`
 
+## Environment Variables & Secrets
+
+> [!IMPORTANT]
+> **Client-Side Build Variables in Cloudflare Workers**
+> Due to the Cloudflare Vite plugin integration, frontend environment variables (e.g., `VITE_...`) are *not* sourced from your Worker's main variables and secrets. They **must** be defined in the Cloudflare Workers *build* settings. Navigate to your worker's **Settings > Build > Variables and Secrets** to add them.
+
+> [!NOTE]
+> **Managing Backend Secrets**
+> Only non-sensitive configuration values should be stored in the `vars` section of `wrangler.jsonc`. All sensitive keys (like API tokens) should be added to your Cloudflare Worker using the `wrangler secret put <KEY_NAME>` command. This practice ensures that secrets are not committed to your version control history.
+
 ## Development Notes
 
 ### OAuth Callback Handling in Development
 
-When using a Single-Page Application (SPA) framework like SolidJS with Cloudflare Pages and the Vite plugin, a specific challenge arises with OAuth callbacks (e.g., from Google Sign-In) in the local development environment.
+> [!NOTE]
+> **OAuth Callback**
+> When using a Single-Page Application (SPA) framework like SolidJS with Cloudflare Workers and the Cloudflare Vite plugin, a specific challenge arises with OAuth callbacks (e.g., from Google Sign-In) in the local development environment.
 
 **The Problem:**
 
