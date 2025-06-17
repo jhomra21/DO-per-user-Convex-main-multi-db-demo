@@ -93,6 +93,20 @@ This pattern is incredibly scalable. Write operations are centralized in Convex,
 
 To apply schema changes to the remote Cloudflare D1 database, we use migrations.
 
+### Initial Setup & Local Development
+
+To set up your local D1 database for the first time, you need to apply the initial migration. This command executes the SQL files in the `migrations/` folder (starting with `0000_initial.sql`) to create the required tables for `better-auth`.
+
+Run the following command in your terminal:
+```bash
+wrangler d1 migrations apply better-auth-1-worker --local
+```
+This ensures your local database schema is in sync with the application's requirements. 
+For remote databases, you would use the `--remote` flag instead, like this:
+```bash
+wrangler d1 migrations apply better-auth-1-worker --remote
+```
+
 ### Workflow for DB Changes
 
 1.  **Create a New Migration File**:
