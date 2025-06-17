@@ -19,12 +19,3 @@ dist-ssr
 .cta.json
 
 .dev.vars
-
-# windsurf rules
-.windsurfrules
-
-DURABLE_OBJECTS_MIGRATION_PLAN.md
-
-AGENT.md
-
-SESSIONS_KV_MIGRATION.md
